@@ -56,24 +56,29 @@ class ModelController: NSObject, UIPageViewControllerDataSource {
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         var index = self.indexOfViewController(viewController as DataViewController)
-        if (index == 0) || (index == NSNotFound) {
+
+        if index == NSNotFound {
             return nil
+        } else if (index == 0) {
+            index = self.pageData.count - 1
+        } else {
+            index--
         }
-        
-        index--
+
         return self.viewControllerAtIndex(index, storyboard: viewController.storyboard!)
     }
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
         var index = self.indexOfViewController(viewController as DataViewController)
+
         if index == NSNotFound {
             return nil
+        } else if index == (self.pageData.count - 1) {
+            index = 0
+        } else {
+            index++
         }
         
-        index++
-        if index == self.pageData.count {
-            return nil
-        }
         return self.viewControllerAtIndex(index, storyboard: viewController.storyboard!)
     }
 
